@@ -4,6 +4,7 @@ import (
 	"go-pet-shop/internal/config"
 	"go-pet-shop/internal/handlers"
 	"go-pet-shop/internal/handlers/customer"
+	"go-pet-shop/internal/handlers/history"
 	"go-pet-shop/internal/handlers/order"
 	"go-pet-shop/internal/handlers/product"
 	"go-pet-shop/internal/handlers/transaction"
@@ -63,6 +64,9 @@ func main() {
 	router.Get("/orders/{id}/items", order.HandleGetOrderItemsByOrderID(log, storage))
 
 	router.Post("/checkout", transaction.HandlePlaceOrder(log, storage))
+
+	router.Get("/history/user", history.HandleUserhistory(log, storage))
+	router.Get("/products/popular", history.HandlePopularProducts(log, storage))
 
 	// Оборачиваем роутер в middleware
 	handler := logger.LoggingMiddleware(log, router)

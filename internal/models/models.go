@@ -36,3 +36,23 @@ type Transaction struct {
 	Status          string
 	TransactionDate time.Time
 }
+
+type OrderDetail struct {
+	OrderID    int
+	Email      string
+	TotalPrice int64
+	CreatedAt  time.Time
+
+	ProductID   int
+	ProductName string
+	Quantity    int
+
+	TxStatus string
+	Amount   int64
+}
+
+type PopularProduct struct {
+	ProductID int
+	Name      string
+	TotalSold int64
+}
