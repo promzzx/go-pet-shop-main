@@ -28,3 +28,11 @@ type OrderItem struct {
 	ProductID int
 	Quantity  int
 }
+
+type Transaction struct {
+	ID              int
+	OrderID         int
+	Amount          float64
+	Status          string
+	TransactionDate time.Time
+}
