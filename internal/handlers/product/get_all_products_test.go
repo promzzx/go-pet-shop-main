@@ -1,6 +1,7 @@
 package product
 
 import (
+	"context"
 	"errors"
 	"go-pet-shop/internal/models"
 	"log/slog"
@@ -14,10 +15,8 @@ import (
 func TestGetAllProducts_Success(t *testing.T) {
 	// Мокаем storage — он вернёт один продукт.
 	mock := &ProductsMock{
-		GetAllProductsFunc: func() ([]models.Product, error) {
-			return []models.Product{
-				{ID: 1, Name: "Dog Food"},
-			}, nil
+		GetAllProductsFunc: func(ctx context.Context) ([]models.Product, error) {
+			return []models.Product{{ID: 1, Name: "Dog Food"}}, nil
 		},
 	}
 
@@ -42,7 +41,7 @@ func TestGetAllProducts_Success(t *testing.T) {
 func TestGetAllProducts_Error(t *testing.T) {
 	// Мокаем storage — он будет возвращать ошибку
 	mock := &ProductsMock{
-		GetAllProductsFunc: func() ([]models.Product, error) {
+		GetAllProductsFunc: func(ctx context.Context) ([]models.Product, error) {
 			return nil, errors.New("DB error")
 		},
 	}

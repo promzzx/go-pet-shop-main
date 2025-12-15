@@ -69,10 +69,10 @@ func (s *Storage) UpdateProduct(ctx context.Context, p models.Product) error {
 func (s *Storage) GetProductByID(ctx context.Context, id string) (models.Product, error) {
 	const fn = "storage.postgres.product.GetProductByID"
 
+	const q = `SELECT id, name, price, stock FROM products WHERE id = $1`
+
 	var p models.Product
-	err := s.db.QueryRow(ctx,
-		`SELECT id, name, price, stock FROM products WHERE id = $1`, id).
-		Scan(&p.ID, &p.Name, &p.Price, &p.Stock)
+	err := s.db.QueryRow(ctx, q, id).Scan(&p.ID, &p.Name, &p.Price, &p.Stock)
 	if err != nil {
 		return models.Product{}, fmt.Errorf("%s: %w", fn, err)
 	}

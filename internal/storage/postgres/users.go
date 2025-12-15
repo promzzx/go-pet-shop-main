@@ -8,10 +8,8 @@ import (
 
 func (s *Storage) CreateUser(ctx context.Context, p models.Customer) error {
 	const fn = "storage.postgres.product.CreateUser"
-
-	_, err := s.db.Exec(ctx,
-		`INSERT INTO users (name, email) VALUES ($1, $2)`,
-		p.Name, p.Email)
+	const q = `INSERT INTO users (name, email) VALUES ($1, $2)`
+	_, err := s.db.Exec(ctx, q, p.Name, p.Email)
 	if err != nil {
 		return fmt.Errorf("%s: %w", fn, err)
 	}

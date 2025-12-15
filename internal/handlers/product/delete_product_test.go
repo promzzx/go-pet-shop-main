@@ -1,6 +1,7 @@
 package product
 
 import (
+	"context"
 	"fmt"
 	"log/slog"
 	"net/http"
@@ -15,8 +16,7 @@ func TestDeleteProduct_Success(t *testing.T) {
 	// Мы задаём функцию DeleteProductFunc, которая будет вызвана хендлером.
 	// Здесь мы проверяем, что хендлер передаёт правильный id ("42").
 	mock := &ProductsMock{
-		DeleteProductFunc: func(id string) error {
-			// Проверяем, что ID передан корректно
+		DeleteProductFunc: func(ctx context.Context, id string) error {
 			if id != "42" {
 				t.Errorf("expected id 42, got %s", id)
 			}
@@ -52,7 +52,7 @@ func TestDeleteProduct_Success(t *testing.T) {
 func TestDeleteProduct_Fail(t *testing.T) {
 	// Мок, который имитирует ошибку при удалении
 	mock := &ProductsMock{
-		DeleteProductFunc: func(id string) error {
+		DeleteProductFunc: func(ctx context.Context, id string) error {
 			// Проверяем корректность id
 			if id != "42" {
 				t.Errorf("expected id 42, got %s", id)

@@ -4,6 +4,7 @@ import (
 	"go-pet-shop/internal/config"
 	"go-pet-shop/internal/handlers"
 	"go-pet-shop/internal/handlers/customer"
+	"go-pet-shop/internal/handlers/order"
 	"go-pet-shop/internal/handlers/product"
 	"go-pet-shop/internal/lib/logger"
 	"go-pet-shop/internal/storage/postgres"
@@ -53,6 +54,12 @@ func main() {
 	router.Get("/customers", customer.GetAllUsers(log, storage))
 	router.Get("/customers/{email}", customer.GetUserByEmail(log, storage))
 	router.Post("/customers", customer.CreateUser(log, storage))
+
+	router.Post("/orders", order.HandleCreateOrder(log, storage))
+	router.Post("/orders/{id}/items", order.HandleAddOrderItem(log, storage))
+	router.Get("/orders/{id}", order.HandleGetOrderByID(log, storage))
+	router.Get("/users/orders", order.HandleGetOrdersByUserEmail(log, storage))
+	router.Get("/orders/{id}/items", order.HandleGetOrderItemsByOrderID(log, storage))
 
 	// Оборачиваем роутер в middleware
 	handler := logger.LoggingMiddleware(log, router)
